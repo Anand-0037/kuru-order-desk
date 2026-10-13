@@ -2,6 +2,8 @@
 
 Kuru Order Desk is a focused trading control center for Kuru's MON/USDC market on Monad testnet. Traders compose an exact GTC post-only order in the browser, review it in MetaMask Agent Wallet, and use separate commands to request execution and inspect the outcome. The browser never signs a transaction.
 
+**Explore:** [Live browser app](https://anand-0037.github.io/kuru-order-desk/) · [Product walkthrough](https://anand-0037.github.io/kuru-order-desk/demo.html) · [Short pitch](https://anand-0037.github.io/kuru-order-desk/pitch.html)
+
 ## The workflow
 
 1. **Compose.** Choose buy or sell, limit price, MON quantity, and a dedicated wallet address. The website creates a readable `mm kuru prepare` command.
