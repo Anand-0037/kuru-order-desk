@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-10-02T08:56:28.902611+00:00",
+  "kind": "PUBLIC_INTERFACE_DOCUMENTATION_RETRIEVAL",
+  "sources": [
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/contracts/order-book.md",
+      "sha256": "8592d8075cbaaa82a0d23c2dec7c188b2e2760a5b82258773094feb54b68fe7b",
+      "bytes": 24032
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/contracts/account-core.md",
+      "sha256": "ea0372b227c9f037a5a38a70882334a968f748167dfc37971453e250a575ea80",
+      "bytes": 21936
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/indexing/order-book.md",
+      "sha256": "2def3491ac1c8016e24baff7b02dd4be8feff214131916e3aa8793016981e467",
+      "bytes": 71774
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/sdk/events.md",
+      "sha256": "01f7a7e40b5b63b3593620c5f153b999a54643e1fbc242db0ab28d218f8f38b8",
+      "bytes": 2100
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/sdk/method-reference.md",
+      "sha256": "23457443a26aa6792ecba885f7cd3e5ab4200bf9a8021429a70272f2cc56abf4",
+      "bytes": 20283
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/matching-engine/order-types.md",
+      "sha256": "5ca6b818bc7373b734f96f90f9032c50613728e953cc05c1c679dac5118a3161",
+      "bytes": 2955
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/llms-full.txt",
+      "sha256": "c3857c85d6d3ef5f750d8e6163944169f15a262ecc737d0b81cccbdad388b616",
+      "bytes": 464285
+    },
+    {
+      "url": "https://kuru-testnet-docs.mintlify.site/deployments/testnet.md",
+      "sha256": "5128461660d7718a54dcbe79d927a426c27138ee5f089453ad0828e5b2647b57",
+      "bytes": 8963
+    }
+  ],
+  "unavailablePublicReference": {
+    "url": "https://api.github.com/repos/Kuru-Labs/kuru-contracts-perps/git/trees/cdac5ae1311ce4793f80d604d25f9713fcfed57d?recursive=1",
+    "observedStatus": 404
+  }
+}

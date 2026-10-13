@@ -1,0 +1,24 @@
+{
+  "name": "kuru-order-desk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Private Kuru Order Desk monorepo: browser review surface and Agent Wallet plugin prototype",
+  "engines": {
+    "node": ">=22.18",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "test": "npm --prefix apps/web test && npm --prefix packages/agent-wallet-plugin test",
+    "check:web": "npm --prefix apps/web run check",
+    "check:plugin": "npm --prefix packages/agent-wallet-plugin run check",
+    "check": "node scripts/check.mjs",
+    "serve": "npm --prefix apps/web run serve",
+    "demo": "npm --prefix packages/agent-wallet-plugin run demo",
+    "build:plugin": "npm --prefix packages/agent-wallet-plugin run build",
+    "install:plugin": "npm --prefix packages/agent-wallet-plugin ci --ignore-scripts",
+    "export:evidence": "npm --prefix apps/web run export:evidence",
+    "readiness": "node scripts/readiness.mjs",
+    "check:readiness": "node --test scripts/readiness.test.mjs"
+  }
+}

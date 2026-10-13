@@ -1,0 +1,22 @@
+name: Verify source
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.18.0'
+          cache: npm
+          cache-dependency-path: packages/agent-wallet-plugin/package-lock.json
+      - run: npm run install:plugin
+      - run: npm run check
+      - run: npm run demo
+      - run: npm pack --dry-run --ignore-scripts
+        working-directory: packages/agent-wallet-plugin

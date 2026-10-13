@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-02T08:56:47.861Z",
+  "kind": "PUBLIC_READ_ONLY_NO_WALLET",
+  "rpc": "https://testnet-rpc.monad.xyz",
+  "chainId": 10143,
+  "blockNumber": "67501223",
+  "blockHash": "0xb96ad232212951cf3bbfa78e23bb187557af8814b509e501ac1597945b6d94bd",
+  "blockTimestamp": "1790931401",
+  "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+  "params": [
+    1000000,
+    "1000000",
+    1,
+    "10000000",
+    "5000000000000",
+    "7000",
+    "4000"
+  ],
+  "base": "0x0000000000000000000000000000000000000000",
+  "quote": "0xA402B424f392EAA05DBc8779e4502A1F6A96fEF1",
+  "custody": "0xdbaaDe7B42c95399bb1E9614D51B5B9e2cf78038",
+  "implementationStorage": "0x000000000000000000000000a4171e141a3cf7801d7f06c126284ac0a509e6a9"
+}

@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> mm-plugin-kuru-order-desk@0.1.0 demo
+> node --experimental-strip-types scripts/demo.ts
+
+
+KURU ORDER DESK
+OFFLINE FIXTURE · NO LIVE TRANSACTIONS
+
+1 · Prepare
+  Buy 1000 MON at a limit of 0.025 USDC/MON
+  Funding estimate: 25.01 USDC prefunded in AccountCore. Snapshot estimate, no guaranteed fill.
+
+2 · Submit through fixture executor
+  One synthetic broadcast recorded
+  The real command delegates to MetaMask policy; this demo never reaches a wallet or RPC.
+
+3 · Reconcile partial fill
+  Filled 400 MON; open 600 MON
+  Synthetic order/fill observations plus a matching order slot; receipt success alone is insufficient.
+
+4 · Review cancellation
+  Cancel only the 600 MON remainder
+  Already filled 400 MON cannot be undone.
+
+5 · Verify cancellation
+  Filled 400 MON; cancelled 600 MON; open 0 MON
+  Own cancellation request is correlated separately to its synthetic receipt and deletion.
+
+6 · Restart and repeat
+  Same outcome; total executor calls remain two
+  Known transaction identities survive restart. Ambiguous submission stops instead of retrying.
+
+Verified fixture executor calls: 2
+Synthetic chain and executor data. This is product-flow evidence, not testnet/EVM integration proof.
+Local demo evidence: <temporary-offline-fixture-directory>

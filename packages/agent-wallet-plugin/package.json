@@ -1,0 +1,154 @@
+{
+  "name": "mm-plugin-kuru-order-desk",
+  "version": "0.1.0",
+  "description": "Review and reconcile Kuru MON/USDC orders through MetaMask Agent Wallet on Monad testnet",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18",
+    "npm": ">=10"
+  },
+  "keywords": [
+    "oclif-plugin",
+    "metamask",
+    "agent-wallet",
+    "kuru",
+    "monad"
+  ],
+  "files": [
+    "dist",
+    "oclif.manifest.json",
+    "skills",
+    "README.md",
+    "LICENSE",
+    "AI_USAGE.md",
+    "docs/DESIGN.md",
+    "docs/COMPATIBILITY.md",
+    "docs/LIVE_VALIDATION.md",
+    "docs/THREAT_BOUNDARY.md",
+    "docs/evidence",
+    "docs/VERIFICATION.md",
+    "docs/INDEPENDENT-ADAPTER.md"
+  ],
+  "scripts": {
+    "account:readiness": "node --experimental-strip-types scripts/account-readiness.ts",
+    "test": "node --test --experimental-strip-types tests/*.test.ts",
+    "typecheck": "node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.json --noEmit && node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.test.json --noEmit",
+    "lint": "eslint src tests scripts",
+    "build": "node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.json && oclif manifest",
+    "demo": "node --experimental-strip-types scripts/demo.ts",
+    "check": "npm test && npm run typecheck && npm run lint && npm run build",
+    "prepack": "npm run build",
+    "format": "prettier --write src scripts",
+    "format:check": "prettier --check src scripts"
+  },
+  "oclif": {
+    "bin": "mm",
+    "commands": "./dist/commands",
+    "topicSeparator": " ",
+    "topics": {
+      "kuru": {
+        "description": "A user-confirmed Kuru order lifecycle on Monad testnet"
+      }
+    }
+  },
+  "mm": {
+    "schemaVersion": 1,
+    "minCliVersion": "^6.2.0",
+    "capabilities": [],
+    "commands": [
+      {
+        "id": "kuru:prepare",
+        "capabilities": [
+          "wallet-read"
+        ],
+        "dataAccess": [
+          "accounts",
+          "balances",
+          "network",
+          "fees"
+        ],
+        "targetChains": [
+          10143
+        ]
+      },
+      {
+        "id": "kuru:submit",
+        "capabilities": [
+          "wallet-read",
+          "wallet-submit"
+        ],
+        "dataAccess": [
+          "accounts",
+          "balances",
+          "network",
+          "fees"
+        ],
+        "targetChains": [
+          10143
+        ]
+      },
+      {
+        "id": "kuru:status",
+        "capabilities": [
+          "wallet-read"
+        ],
+        "dataAccess": [
+          "accounts",
+          "balances",
+          "network"
+        ],
+        "targetChains": [
+          10143
+        ]
+      },
+      {
+        "id": "kuru:cancel",
+        "capabilities": [
+          "wallet-read",
+          "wallet-submit"
+        ],
+        "dataAccess": [
+          "accounts",
+          "balances",
+          "network",
+          "fees"
+        ],
+        "targetChains": [
+          10143
+        ]
+      },
+      {
+        "id": "kuru:demo",
+        "capabilities": [],
+        "dataAccess": [],
+        "targetChains": [
+          10143
+        ]
+      }
+    ]
+  },
+  "peerDependencies": {
+    "@metamask/agent-wallet": "^6.2.0"
+  },
+  "dependencies": {
+    "@toxicflow-labs/ts-sdk": "0.2.0",
+    "viem": "2.51.3"
+  },
+  "devDependencies": {
+    "@metamask/agent-sdk": "6.2.0",
+    "@metamask/agent-wallet": "6.2.0",
+    "@types/node": "24.0.0",
+    "eslint": "9.39.1",
+    "oclif": "4.22.27",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.1"
+  },
+  "overrides": {
+    "@metamask/agent-sdk": {
+      "viem": "2.52.2"
+    }
+  }
+}

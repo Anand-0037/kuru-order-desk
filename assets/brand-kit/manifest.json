@@ -1,0 +1,57 @@
+{
+  "project": "Kuru Order Desk",
+  "status": "Private original brand assets for testnet prototype",
+  "palette": {
+    "charcoal": "#111317",
+    "orange": "#FF7A33",
+    "warm_white": "#F7F4EF",
+    "secondary": "#AAAEB7",
+    "border": "#30343C"
+  },
+  "font": "DejaVu Sans",
+  "originality": "Original geometric order-ledger mark created for this prototype. No official Kuru or MetaMask logo assets used. No affiliation or endorsement asserted.",
+  "disclosures": [
+    "TESTNET PROTOTYPE",
+    "Offline walkthrough",
+    "synthetic data",
+    "no live transactions"
+  ],
+  "files": [
+    {
+      "file": "kuru-order-desk-mark.png",
+      "width": 1024,
+      "height": 1024,
+      "pixels": 1048576,
+      "size_bytes": 7273,
+      "mode": "RGBA",
+      "sha256": "86e456eaabaf28921959e9a7e9de25fc6b4b82aa0a2129fbac0e623377a18810"
+    },
+    {
+      "file": "kuru-order-desk-portal.png",
+      "width": 1024,
+      "height": 1024,
+      "pixels": 1048576,
+      "size_bytes": 16823,
+      "mode": "RGBA",
+      "sha256": "742af842e59b018c7bf550b602c225f1c7de912e09112cdfb1ac681e0744f0d6"
+    },
+    {
+      "file": "kuru-order-desk-lockup.png",
+      "width": 760,
+      "height": 220,
+      "pixels": 167200,
+      "size_bytes": 8787,
+      "mode": "RGBA",
+      "sha256": "d43fb09ea971a862a72b31699fba52115cf168871c3f164bf56bd45850407139"
+    },
+    {
+      "file": "kuru-order-desk-demo-cover.png",
+      "width": 1920,
+      "height": 1080,
+      "pixels": 2073600,
+      "size_bytes": 176541,
+      "mode": "RGBA",
+      "sha256": "a9163bc3a1bc63eda2aaaf722639be119321ad612f9b572d3dd6408fac162168"
+    }
+  ]
+}

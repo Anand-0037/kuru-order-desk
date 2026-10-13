@@ -1,0 +1,58 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import{readFile,access}from'node:fs/promises';
+test('static entry assets resolve and the no-transaction disclosure is persistent',async()=>{const html=await readFile('dist/index.html','utf8');for(const link of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!/^https?:/.test(link[1]))await access('dist/'+link[1]);assert.match(html,/No live transactions/);assert.match(html,/Offline examples · synthetic only/);const css=await readFile('dist/styles.css','utf8');assert.match(css,/\.disclosure\{position:sticky/);});
+test('offline order runtime has no external service endpoints or transaction builder',async()=>{for(const file of['app.mjs','model.mjs','amounts.mjs']){const text=await readFile('dist/'+file,'utf8');assert.doesNotMatch(text,/https?:\/\/|ethereum\.request|walletconnect|eth_sendTransaction|node:|privateKey/i);}const app=await readFile('dist/app.mjs','utf8');assert.match(app,/fetch\('\.\/evidence.json'\)/);});
+
+test('wallet runtime contains no signing, broadcast, network-add or token-permission method',async()=>{for(const file of ['wallet.mjs','wallet-discovery.mjs','wallet-ui.mjs']){const source=await readFile('dist/'+file,'utf8');assert.doesNotMatch(source,/eth_sendTransaction|eth_sendRawTransaction|eth_sign|personal_sign|wallet_addEthereumChain|wallet_requestPermissions|wallet_grantPermissions|localStorage|sessionStorage/);}});
+test('human workflow uses blank structured terms, readable CLI output and optional report import',async()=>{
+ const html=await readFile('dist/index.html','utf8');
+ const workflow=html.slice(html.indexOf('<section class="page-heading">'),html.indexOf('<details class="flow-panel optional-import"'));
+ assert.match(workflow,/Build your order\. Review it in Agent Wallet\./);
+ assert.match(workflow,/You do not need to paste CLI output back into this page/);
+ assert.match(workflow,/01 · Order[\s\S]*02 · Review<\/a>[\s\S]*03 · Check status/);
+ assert.match(workflow,/<h2 id="agent-title">Compose a testnet order<\/h2>/);
+ assert.match(workflow, /Before you start[\s\S]*MetaMask Agent Wallet 6\.2\.0[\s\S]*dedicated, registered Kuru testnet account/);
+ assert.match(workflow,/href="https:\/\/docs\.metamask\.io\/agent-wallet\/quickstart\/"[^>]*>Set up MetaMask Agent Wallet CLI \(official guide\)<\/a>/);
+ assert.match(workflow,/packages\/agent-wallet-plugin\/README\.md/);
+ assert.match(workflow,/02 · Review<\/a>/);
+ assert.doesNotMatch(workflow,/02 · Review &amp; authorize/);
+ assert.match(workflow,/<details class="setup-guide"><summary>Local plugin setup \(human review required\)<\/summary>[\s\S]*npm run build[\s\S]*mm config set experimentalPlugins true[\s\S]*mm plugins install/);
+ assert.match(workflow,/CLI sign-in and initialization are separate steps/);
+ assert.match(workflow,/do not register or fund a Kuru account/);
+ assert.match(workflow,/Kuru account registration and custody funding are separate setup tasks/);
+ assert.ok(workflow.indexOf('Before you start') < workflow.indexOf('<form id="instruction-form">'),'first-use requirements must appear before order entry');
+ assert.match(workflow,/<h2 id="action-title">Prepare without signing; submit only if you choose<\/h2>/);
+ assert.match(workflow,/Prepare reads account and chain state and saves a local intent; it does not sign or submit a transaction/);
+ assert.match(workflow,/Submitting is optional/);
+ assert.match(workflow,/<h2 id="execution-title">Check the reported order status<\/h2>/);
+ assert.match(workflow,/id="side-buy" type="radio" name="intent-side" value="buy" required/);
+ assert.match(workflow,/id="side-sell" type="radio" name="intent-side" value="sell" required/);
+ assert.doesNotMatch(workflow,/name="side"/,'live order radios must not change the sandbox radio group');
+ const sandboxStart=html.indexOf('<form id="review-form"');
+ const sandbox=html.slice(sandboxStart,html.indexOf('</form>',sandboxStart));
+ assert.match(sandbox,/name="side" value="buy" checked/);
+ assert.match(sandbox,/name="side" value="sell"/);
+ const offlineRuntime=await readFile('dist/app.mjs','utf8');
+ assert.match(offlineRuntime,/input\[name="side"\]:checked/);
+ assert.match(workflow,/id="order-price" name="price" type="text" inputmode="decimal"[^>]*required/);
+ assert.match(workflow,/id="order-quantity" name="quantity" type="text" inputmode="decimal"[^>]*required/);
+ assert.match(workflow,/id="intent-owner" maxlength="42"[^>]*required/);
+ assert.doesNotMatch(workflow,/type="radio"[^>]*checked/);
+ assert.doesNotMatch(workflow,/id="(?:order-price|order-quantity|intent-owner)"[^>]*\bvalue=/);
+ assert.match(workflow,/mm kuru submit --intent &lt;INTENT_ID&gt; --confirm &lt;REVIEW_DIGEST&gt; --exclusive-account --format text/);
+ assert.match(workflow,/mm kuru status --intent &lt;INTENT_ID&gt; --format text/);
+ assert.doesNotMatch(workflow,/<textarea|result JSON/i);
+ const optional=html.slice(html.indexOf('<details class="flow-panel optional-import"'),html.indexOf('<details class="offline-examples">'));
+ assert.match(optional,/Prepare report JSON[\s\S]*Status report JSON/);
+ assert.match(html,/Offline examples · synthetic only/);
+ assert.match(html,/<details class="offline-examples" id="offline-examples">/);
+ assert.ok(html.indexOf('<details class="offline-examples" id="offline-examples">')<html.indexOf('class="panel wallet-panel"'));
+ assert.match(html,/Connecting a wallet does not change them/);
+ const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);
+ assert.equal(new Set(ids).size,ids.length,'element IDs must be unique for labels and browser automation');
+});
+
+test('sticky disclosure leaves a clear scroll target for focused controls',async()=>{const css=await readFile('dist/styles.css','utf8');assert.match(css,/html\{scroll-padding-top:5rem\}/);});
+test('keyboard users can skip the header and focus the main content',async()=>{const html=await readFile('dist/index.html','utf8');const css=await readFile('dist/styles.css','utf8');assert.match(html,/<body>\s*<a class="skip-link" href="#main">Skip to main content<\/a>/);assert.match(html,/<main id="main" tabindex="-1">/);assert.match(css,/\.skip-link:focus\{transform:translateY\(0\)\}/);});
+
+test('dashboard visual refresh keeps the example illustrative and setup accessible',async()=>{const html=await readFile('dist/index.html','utf8');const css=await readFile('dist/styles.css','utf8');assert.match(html,/EXAMPLE · NOT A LIVE QUOTE/);assert.match(html,/<details class="prerequisite-note"><summary>Before you start/);assert.match(html,/id="reset"/);assert.equal([...html.matchAll(/id="reset"/g)].length,1);assert.match(css,/@media\(max-width:740px\)\{\.hero-points\{display:none\}/);});
+test('first visit offers a no-wallet synthetic demo and a distinct testnet path',async()=>{const html=await readFile('dist/index.html','utf8');const app=await readFile('dist/app.mjs','utf8');assert.match(html,/id="try-demo" href="#offline-examples">Try interactive demo <span>No wallet or CLI · synthetic only/);assert.match(html,/href="#agent-workflow">Use Agent Wallet <span>Real testnet setup required/);assert.match(html,/<details class="offline-examples" id="offline-examples">/);assert.match(app,/function openDemo\(\)\{const panel=\$\('offline-examples'\);panel\.open=true/);});

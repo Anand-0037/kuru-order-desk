@@ -1,0 +1,8 @@
+import {test}from'node:test';import assert from'node:assert/strict';import{discoverWallets}from'../dist/wallet-discovery.mjs';
+const provider=()=>({request:async()=>[],on(){},removeListener(){}});
+class Host extends EventTarget{Event=Event;ethereum=undefined;}
+const announcement=(host,p,uuid='5f761c11-c21a-4a04-9c4d-9f472302224a',name='Example wallet')=>{const e=new Event('eip6963:announceProvider');e.detail={provider:p,info:{uuid,name,rdns:'io.example',icon:'data:image/svg+xml,<svg/>'}};host.dispatchEvent(e);};
+test('discovery does not request wallet accounts or change network',()=>{const host=new Host();let requests=0;host.ethereum={...provider(),request(){requests++}};const d=discoverWallets(host);assert.equal(d.getProviders().length,1);assert.equal(requests,0);d.dispose();});
+test('announced providers replace legacy fallback and duplicates are ignored',()=>{const host=new Host();host.ethereum=provider();const d=discoverWallets(host),p=provider();announcement(host,p);announcement(host,p);assert.equal(d.getProviders().length,1);assert.equal(d.getProviders()[0].name,'Example wallet');assert.equal(d.getProviders()[0].provider,p);d.dispose();});
+test('colliding UUID cannot overwrite selected provider',()=>{const host=new Host(),d=discoverWallets(host),p=provider();announcement(host,p);announcement(host,provider());assert.equal(d.getProviders()[0].provider,p);assert.equal(d.getProviders().length,1);d.dispose();});
+test('absent and invalid providers leave genuine unavailable state',()=>{const host=new Host(),d=discoverWallets(host);announcement(host,{},'broken','Fake');assert.equal(d.getProviders().length,0);d.dispose();});

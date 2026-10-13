@@ -1,0 +1,411 @@
+{
+  "generatedAt": "2026-10-05T09:48:13.517Z",
+  "mode": "OFFLINE FIXTURE · NO LIVE TRANSACTIONS",
+  "snapshot": {
+    "chainId": 10143,
+    "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+    "accountCore": "0xdbaade7b42c95399bb1e9614d51b5b9e2cf78038",
+    "baseToken": "0x0000000000000000000000000000000000000000",
+    "quoteToken": "0xa402b424f392eaa05dbc8779e4502a1f6a96fef1",
+    "marketImplementation": "0xa4171e141a3cf7801d7f06c126284ac0a509e6a9",
+    "accountImplementation": "0x980719bfce5bf47fbe6951676086bde2fd8452b1",
+    "owner": "0x1111111111111111111111111111111111111111",
+    "accountId": "7",
+    "blockNumber": "105",
+    "blockHash": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "blockTimestampMs": 1790928000000,
+    "observedAtMs": 1790928000000,
+    "priceScale": "1000000",
+    "sizeScale": "1000000",
+    "baseMultiplier": "1000000000000",
+    "quoteDecimals": 6,
+    "tick": "1",
+    "minQuoteAtoms": "10000000",
+    "maxQuoteAtoms": "5000000000000",
+    "makerFeePps": "4000",
+    "baseFreeAtoms": "10000000000000000000000",
+    "quoteFreeAtoms": "1000000000",
+    "baseReservedAtoms": "0",
+    "quoteReservedAtoms": "0",
+    "walletMonAtoms": "1000000000000000000",
+    "slots": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "postFillHook": "0x0000000000000000000000000000000000000000",
+    "paused": false,
+    "marketState": 0
+  },
+  "demo": {
+    "mode": "OFFLINE FIXTURE · NO LIVE TRANSACTIONS",
+    "steps": [
+      {
+        "stage": "1 · Prepare",
+        "message": "Buy 1000 MON at a limit of 0.025 USDC/MON",
+        "detail": "Funding estimate: 25.01 USDC prefunded in AccountCore. Snapshot estimate, no guaranteed fill."
+      },
+      {
+        "stage": "2 · Submit through fixture executor",
+        "message": "One synthetic broadcast recorded",
+        "detail": "The real command delegates to MetaMask policy; this demo never reaches a wallet or RPC."
+      },
+      {
+        "stage": "3 · Reconcile partial fill",
+        "message": "Filled 400 MON; open 600 MON",
+        "detail": "Synthetic order/fill observations plus a matching order slot; receipt success alone is insufficient."
+      },
+      {
+        "stage": "4 · Review cancellation",
+        "message": "Cancel only the 600 MON remainder",
+        "detail": "Already filled 400 MON cannot be undone."
+      },
+      {
+        "stage": "5 · Verify cancellation",
+        "message": "Filled 400 MON; cancelled 600 MON; open 0 MON",
+        "detail": "Own cancellation request is correlated separately to its synthetic receipt and deletion."
+      },
+      {
+        "stage": "6 · Restart and repeat",
+        "message": "Same outcome; total executor calls remain two",
+        "detail": "Known transaction identities survive restart. Ambiguous submission stops instead of retrying."
+      }
+    ],
+    "preview": {
+      "network": "Monad TESTNET (10143) · dummy test assets",
+      "intentId": "6fa754c6105c59a8c4ad24de4c9b26d8f963acf8070fcc6e7389ca3dd17a9b1f",
+      "confirmationDigest": "6fa754c6105c59a8c4ad24de4c9b26d8f963acf8070fcc6e7389ca3dd17a9b1f",
+      "order": "Buy 1000 MON at a limit of 0.025 USDC/MON",
+      "type": "GTC + POST_ONLY; may be skipped if crossing",
+      "funding": "25.01 USDC prefunded in AccountCore",
+      "fundingMeaning": "Conservative snapshot funding estimate; not an execution-time cap",
+      "availableFunding": "1000 USDC free in AccountCore",
+      "makerFeeRate": "0.04% snapshot rate",
+      "estimatedMakerFee": "0.01 USDC",
+      "walletGasBalance": "1 MON",
+      "gas": "Separate wallet MON charge, estimated and authorized in the host wallet",
+      "localReviewExpires": "2026-10-02T08:05:00.000Z",
+      "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "accountId": "7",
+      "snapshotBlock": "105",
+      "risks": [
+        "TESTNET ONLY: these are dummy assets; no profit or fill is guaranteed.",
+        "GTC POST_ONLY can be skipped; a resting order may fill partially or fully before cancellation.",
+        "Cancellation cannot reverse fills. Released funds remain in AccountCore, subject to withdrawal rules.",
+        "Direct batch has no execution-time deadline or maker-fee cap; local expiry and fees are preflight checks only.",
+        "Use one dedicated exclusive account: external concurrent trading can reuse a slot after the cancellation check.",
+        "Gas is charged in wallet MON separately; MetaMask displays the transaction fee before authorization."
+      ]
+    },
+    "partial": {
+      "intentId": "6fa754c6105c59a8c4ad24de4c9b26d8f963acf8070fcc6e7389ca3dd17a9b1f",
+      "state": "partially-filled",
+      "orderId": "88",
+      "slot": 3,
+      "filled": "400 MON",
+      "open": "600 MON",
+      "cancelled": "0 MON",
+      "otherRemoved": "0 MON",
+      "throughFinalizedBlock": "105",
+      "reconciliationProvenance": {
+        "schemaVersion": 2,
+        "chainId": 10143,
+        "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+        "intentOwner": "0x1111111111111111111111111111111111111111",
+        "intentAccountId": "7",
+        "submissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expectedSubmissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "submissionHashMatches": true,
+        "receiptStatus": "success",
+        "receiptBlock": "101",
+        "evidenceFromBlock": "101",
+        "evidenceToBlock": "105",
+        "finalizedHeadHash": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observedAtMs": 1790928000000,
+        "requestMatches": true,
+        "finalized": true,
+        "complete": true,
+        "canonical": true
+      },
+      "evidence": [
+        "Receipt, complete bounded market-log replay and pinned account slots agree"
+      ],
+      "fillTradeIds": [
+        "123"
+      ],
+      "cancelTransactionHashes": [],
+      "cancellationRequest": {
+        "phase": "not-started",
+        "transactionHash": null,
+        "receiptState": "not-requested",
+        "confirmedByTrackedDeletion": false,
+        "note": "Order state and cancellation-request outcome are separate; this request is not yet verified to have cancelled the remainder."
+      },
+      "cancellationNote": "Cancellation affects only remaining order size. Filled trades stay final; released funds remain in AccountCore."
+    },
+    "final": {
+      "intentId": "6fa754c6105c59a8c4ad24de4c9b26d8f963acf8070fcc6e7389ca3dd17a9b1f",
+      "state": "partially-filled-cancelled",
+      "orderId": "88",
+      "slot": 3,
+      "filled": "400 MON",
+      "open": "0 MON",
+      "cancelled": "600 MON",
+      "otherRemoved": "0 MON",
+      "throughFinalizedBlock": "105",
+      "reconciliationProvenance": {
+        "schemaVersion": 2,
+        "chainId": 10143,
+        "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+        "intentOwner": "0x1111111111111111111111111111111111111111",
+        "intentAccountId": "7",
+        "submissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expectedSubmissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "submissionHashMatches": true,
+        "receiptStatus": "success",
+        "receiptBlock": "101",
+        "evidenceFromBlock": "101",
+        "evidenceToBlock": "105",
+        "finalizedHeadHash": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observedAtMs": 1790928000000,
+        "requestMatches": true,
+        "finalized": true,
+        "complete": true,
+        "canonical": true
+      },
+      "evidence": [
+        "Receipt, complete bounded market-log replay and pinned account slots agree"
+      ],
+      "fillTradeIds": [
+        "123"
+      ],
+      "cancelTransactionHashes": [
+        "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "cancellationRequest": {
+        "phase": "broadcast",
+        "transactionHash": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "receiptState": "success",
+        "confirmedByTrackedDeletion": true,
+        "note": "Matching finalized cancellation transaction and tracked order deletion verified."
+      },
+      "cancellationNote": "Cancellation affects only remaining order size. Filled trades stay final; released funds remain in AccountCore."
+    },
+    "restart": {
+      "state": "partially-filled-cancelled",
+      "orderId": "88",
+      "slot": 3,
+      "filledQuantity": "400000000",
+      "openQuantity": "0",
+      "cancelledQuantity": "600000000",
+      "removedQuantity": "0",
+      "observedAtMs": 1790928000000,
+      "throughBlock": "105",
+      "reasons": [],
+      "fillTradeIds": [
+        "123"
+      ],
+      "cancelTransactionHashes": [
+        "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "cancelActions": [
+        {
+          "transactionHash": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "clientOrderId": "0x3c5d5a6959d98bfe7f21c209869d670e78229eaaa54b51d42d7da522f479febf",
+          "accountId": "7",
+          "quantity": "600000000",
+          "operationIndex": 0
+        }
+      ],
+      "reconciliationProvenance": {
+        "schemaVersion": 2,
+        "chainId": 10143,
+        "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+        "intentOwner": "0x1111111111111111111111111111111111111111",
+        "intentAccountId": "7",
+        "submissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expectedSubmissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "submissionHashMatches": true,
+        "receiptStatus": "success",
+        "receiptBlock": "101",
+        "evidenceFromBlock": "101",
+        "evidenceToBlock": "105",
+        "finalizedHeadHash": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observedAtMs": 1790928000000,
+        "requestMatches": true,
+        "finalized": true,
+        "complete": true,
+        "canonical": true
+      },
+      "cancellation": {
+        "phase": "broadcast",
+        "transactionHash": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "receiptState": "success",
+        "confirmedByTrackedDeletion": true,
+        "note": "Matching finalized cancellation transaction and tracked order deletion verified."
+      }
+    },
+    "executorCalls": 2,
+    "limitation": "Synthetic chain and executor data. This is product-flow evidence, not testnet/EVM integration proof."
+  },
+  "open": {
+    "intentId": "6fa754c6105c59a8c4ad24de4c9b26d8f963acf8070fcc6e7389ca3dd17a9b1f",
+    "state": "open",
+    "orderId": "88",
+    "slot": 3,
+    "filled": "0 MON",
+    "open": "1000 MON",
+    "cancelled": "0 MON",
+    "otherRemoved": "0 MON",
+    "throughFinalizedBlock": "105",
+    "reconciliationProvenance": {
+      "schemaVersion": 2,
+      "chainId": 10143,
+      "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+      "intentOwner": "0x1111111111111111111111111111111111111111",
+      "intentAccountId": "7",
+      "submissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expectedSubmissionHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "submissionHashMatches": true,
+      "receiptStatus": "success",
+      "receiptBlock": "101",
+      "evidenceFromBlock": "101",
+      "evidenceToBlock": "105",
+      "finalizedHeadHash": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "observedAtMs": 1790928000000,
+      "requestMatches": true,
+      "finalized": true,
+      "complete": true,
+      "canonical": true
+    },
+    "evidence": [
+      "Receipt, complete bounded market-log replay and pinned account slots agree"
+    ],
+    "fillTradeIds": [],
+    "cancelTransactionHashes": [],
+    "cancellationRequest": {
+      "phase": "not-started",
+      "transactionHash": null,
+      "receiptState": "not-requested",
+      "confirmedByTrackedDeletion": false,
+      "note": "Order state and cancellation-request outcome are separate; this request is not yet verified to have cancelled the remainder."
+    },
+    "cancellationNote": "Cancellation affects only remaining order size. Filled trades stay final; released funds remain in AccountCore."
+  },
+  "unknown": {
+    "intentId": "6fa754c6105c59a8c4ad24de4c9b26d8f963acf8070fcc6e7389ca3dd17a9b1f",
+    "state": "needs-review",
+    "orderId": null,
+    "slot": null,
+    "filled": "Unknown",
+    "open": "Unknown",
+    "cancelled": "Unknown",
+    "otherRemoved": "Unknown",
+    "throughFinalizedBlock": null,
+    "reconciliationProvenance": null,
+    "evidence": [
+      "Submission unknown; no verified transaction hash"
+    ],
+    "fillTradeIds": [],
+    "cancelTransactionHashes": [],
+    "cancellationRequest": null,
+    "cancellationNote": "Cancellation affects only remaining order size. Filled trades stay final; released funds remain in AccountCore.",
+    "canRetry": false,
+    "executorCalls": 1,
+    "initialRefusal": "submission outcome unknown; no automatic retry. Inspect MetaMask wallet requests and chain evidence.",
+    "repeatRefusal": "Submission unknown; do not resubmit. Reconcile the wallet request manually."
+  },
+  "publicRead": {
+    "checkedAt": "2026-10-02T08:56:47.861Z",
+    "kind": "PUBLIC_READ_ONLY_NO_WALLET",
+    "rpc": "https://testnet-rpc.monad.xyz",
+    "chainId": 10143,
+    "blockNumber": "67501223",
+    "blockHash": "0xb96ad232212951cf3bbfa78e23bb187557af8814b509e501ac1597945b6d94bd",
+    "blockTimestamp": "1790931401",
+    "market": "0x26cd68436b6a4aeb3ec52abc20a4d121f8b4bac9",
+    "params": [
+      1000000,
+      "1000000",
+      1,
+      "10000000",
+      "5000000000000",
+      "7000",
+      "4000"
+    ],
+    "base": "0x0000000000000000000000000000000000000000",
+    "quote": "0xA402B424f392EAA05DBc8779e4502A1F6A96fEF1",
+    "custody": "0xdbaaDe7B42c95399bb1E9614D51B5B9e2cf78038",
+    "implementationStorage": "0x000000000000000000000000a4171e141a3cf7801d7f06c126284ac0a509e6a9"
+  },
+  "sourceHashes": {
+    "src/amounts.ts": "39cb84ccfc46d9415edb2146d07cc32b05ce8d6b293377e89331c982bf12e8e2",
+    "src/planner.ts": "37324db06680d5cddfa507a39db94b0067f078c51a4c0a5186a20dc10f3278ad",
+    "src/presentation.ts": "53238a4a582b1a50be2010a6057991168c8950260990bcf0d23ce2b037a98dbe",
+    "src/demo.ts": "5fb556ea346f79bc53959e37f6dfd5f868dc14fc5eca2f43c5418e00009ce7ab",
+    "src/fixtures/demo.ts": "f3c6034f72839e42969aae84caa666aa14853464a77bea68c32044575051966c",
+    "src/service.ts": "1e05bd960c1d41da194400a0f52683038274a1b334ecb3c35d1fc0c20eb5287c",
+    "src/evidence.ts": "67c11549953d953b7abd46e907525e8ab9e553d4a2eccbfcd0801790ec3b777f",
+    "docs/evidence/public-chain-check-adapter-2026-10-02.json": "40ae6223eadfc794e4f67ab660a85fcc9bccacd83fcdc51416e3f1c4f15a5fd3"
+  }
+}

@@ -1,0 +1,46 @@
+// Offline-only exporter. Imports original MIT application code; calls no RPC or wallet.
+import { readFile, writeFile, mkdtemp, copyFile } from 'node:fs/promises';
+import { stripTypeScriptTypes } from 'node:module';
+import { createHash } from 'node:crypto';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+const projectRoot=resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const args=process.argv.slice(2);
+if(args.length && (args.length!==2 || args[0]!=='--core-root')) throw Error('Usage: node scripts/export-evidence.mjs [--core-root /path/to/agent-wallet-plugin]');
+const coreRoot=resolve(args[1] || resolve(projectRoot,'../metropolis-kuru-plugin'));
+const coreImport=relative=>import(pathToFileURL(resolve(coreRoot,relative)).href);
+const {runDemo}=await coreImport('src/demo.ts');
+const {OfflineDemoChain,DEMO_NOW,DEMO_OWNER,DEMO_SUBMIT}=await coreImport('src/fixtures/demo.ts');
+const {OrderService}=await coreImport('src/service.ts');
+const {IntentStore}=await coreImport('src/store.ts');
+const {presentStatus}=await coreImport('src/presentation.ts');
+const root=coreRoot+'/';
+process.chdir(projectRoot);
+const demo=await runDemo(); delete demo.stateDirectory;
+const chain=new OfflineDemoChain(); const snapshot=await chain.snapshot();
+const store=new IntentStore(await mkdtemp(join(tmpdir(),'kuru-browser-evidence-')));
+const service=new OrderService(store,chain,async()=>{chain.stage='open';return {hash:DEMO_SUBMIT}},()=>DEMO_NOW);
+const intent=await service.prepare({owner:DEMO_OWNER,side:'buy',price:'0.025',quantity:'1000'});
+await service.submit(intent.id,intent.digest,true,DEMO_OWNER);
+const open=presentStatus(intent,await service.status(intent.id));
+let executorCalls=0;
+const unknownStore=new IntentStore(await mkdtemp(join(tmpdir(),'kuru-browser-unknown-')));
+const unknownChain=new OfflineDemoChain();
+const executor=async()=>{executorCalls++; throw Error('Synthetic transport timeout after executor entry');};
+const unknownService=new OrderService(unknownStore,unknownChain,executor,()=>DEMO_NOW);
+const unknownIntent=await unknownService.prepare({owner:DEMO_OWNER,side:'buy',price:'0.025',quantity:'1000'});
+let initialRefusal=''; try { await unknownService.submit(unknownIntent.id,unknownIntent.digest,true,DEMO_OWNER); } catch(e) {initialRefusal=e.message;}
+const restarted=new OrderService(new IntentStore(unknownStore.directory),unknownChain,executor,()=>DEMO_NOW);
+let repeatRefusal=''; try { await restarted.submit(unknownIntent.id,unknownIntent.digest,true,DEMO_OWNER); } catch(e) {repeatRefusal=e.message;}
+const unknown={...presentStatus(unknownIntent,await restarted.status(unknownIntent.id)),canRetry:false,executorCalls,initialRefusal,repeatRefusal};
+const paths=['src/amounts.ts','src/planner.ts','src/presentation.ts','src/demo.ts','src/fixtures/demo.ts','src/service.ts','src/evidence.ts','docs/evidence/public-chain-check-adapter-2026-10-02.json'];
+const hashes={}; for(const path of paths) hashes[path]=createHash('sha256').update(await readFile(root+path)).digest('hex');
+const publicRead=JSON.parse(await readFile(root+'docs/evidence/public-chain-check-adapter-2026-10-02.json','utf8'));
+const evidence={generatedAt:new Date().toISOString(),mode:demo.mode,snapshot,demo,open,unknown,publicRead,sourceHashes:hashes};
+await writeFile('dist/evidence.json',JSON.stringify(evidence,null,2)+'\n');
+const original=await readFile(root+'src/amounts.ts','utf8');
+await writeFile('dist/amounts.mjs','// Original Kuru Order Desk MIT code, TypeScript types removed only.\n'+stripTypeScriptTypes(original));
+await copyFile(root+'LICENSE','dist/LICENSE.txt');
+console.log(JSON.stringify({mode:evidence.mode,partial:demo.partial.state,final:demo.final.state,unknown:unknown.state,unknownExecutorCalls:executorCalls,sourceCount:paths.length}));

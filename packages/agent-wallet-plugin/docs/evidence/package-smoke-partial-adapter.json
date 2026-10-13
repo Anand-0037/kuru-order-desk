@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-02T09:02:35.863Z",
+  "kind": "EXTRACTED_ARTIFACT_MODULE_SMOKE_NOT_HOST_INSTALL",
+  "commands": 5,
+  "manifestValid": true,
+  "independentPackedCodec": true,
+  "demo": "OFFLINE FIXTURE · NO LIVE TRANSACTIONS",
+  "executorCalls": 2,
+  "filled": "400 MON",
+  "cancelled": "600 MON",
+  "open": "0 MON",
+  "dependencies": "reused pinned local dependencies, not a cold install"
+}
