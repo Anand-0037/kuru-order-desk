@@ -1,51 +1,48 @@
 # Kuru Order Desk
 
-Kuru Order Desk is a focused trading control center for Kuru's MON/USDC market on Monad testnet. Traders compose an exact GTC post-only order in the browser, review it in MetaMask Agent Wallet, and use separate commands to request execution and inspect the outcome. The browser never signs a transaction.
+**Compose a Kuru order in the browser. Review the exact intent in MetaMask Agent Wallet. Reconcile what happened.**
 
-**Explore:** [Live browser app](https://anand-0037.github.io/kuru-order-desk/) · [Product walkthrough](https://anand-0037.github.io/kuru-order-desk/demo.html) · [Short pitch](https://anand-0037.github.io/kuru-order-desk/pitch.html)
+Kuru Order Desk is a trading control center for the MON/USDC market on Monad testnet. It gives traders a clear path from order terms to wallet review and status tracking while keeping signing and policy decisions inside Agent Wallet.
 
-## The workflow
+[Open the live app](https://anand-0037.github.io/kuru-order-desk/) · [Watch the product demo](https://anand-0037.github.io/kuru-order-desk/demo.html) · [Watch the pitch](https://anand-0037.github.io/kuru-order-desk/pitch.html)
 
-1. **Compose.** Choose buy or sell, limit price, MON quantity, and a dedicated wallet address. The website creates a readable `mm kuru prepare` command.
-2. **Review.** The Agent Wallet plugin reads the Kuru account, market, custody balance, and wallet gas balance. A successful prepare creates an intent with a review digest; it does not place an order.
-3. **Authorize.** The trader checks the exact terms and separately chooses whether to submit through Agent Wallet policy and signing.
-4. **Reconcile.** `status` checks receipt, market, and order-slot evidence. A cancellation has its own preview and confirmation. Uncertain outcomes stop automatic retries.
+## Why it exists
 
-The plugin also includes an explicitly labelled offline demo that exercises the workflow without a wallet or live transaction. The browser's interactive examples are synthetic and are kept separate from real account reads.
+A transaction hash alone does not tell a trader whether an order is resting, filled, cancelled, or still uncertain. Kuru Order Desk makes the order terms readable before submission and gives the trader a separate path to inspect the outcome.
 
-## Try the browser
+## How it works
 
-Use Node.js 22.18+ and npm 10+.
+1. **Compose:** Choose a side, MON quantity, and USDC limit price. The browser builds a readable `mm kuru prepare` command for a GTC post-only order.
+2. **Review:** The Agent Wallet plugin checks the selected wallet, Kuru account, market, custody funds, and gas balance. A successful prepare returns a review digest without signing.
+3. **Authorize:** The trader reviews that exact digest and separately requests submission through Agent Wallet's signing and policy controls.
+4. **Reconcile:** `status` checks transaction, market, and order-slot evidence. Cancellation has its own review, and uncertain outcomes stop automatic retries.
+
+The browser is a non-signing companion. Its interactive lifecycle examples and the plugin's offline `demo` command are explicitly labeled synthetic.
+
+## Try it
+
+Open the [live app](https://anand-0037.github.io/kuru-order-desk/) and select **Try interactive demo**, or enter order terms to generate a prepare command. No browser login or private key is needed.
+
+To run the project locally, use Node.js 22.18+ and npm 10+:
 
 ```sh
 npm run check:web
 npm run serve
 ```
 
-Open `http://127.0.0.1:4173/`. Select **Try interactive demo** to explore the synthetic scenarios, or enter your own terms to build a read-only prepare command. The page asks for a wallet address only; never enter a private key or recovery phrase.
+Open `http://127.0.0.1:4173/`. For Agent Wallet installation and command usage, follow the [plugin guide](packages/agent-wallet-plugin/README.md) and [agent skill](packages/agent-wallet-plugin/skills/kuru-order-desk/SKILL.md). The [account setup guide](docs/ACCOUNT_SETUP.md) covers the Monad testnet and Kuru custody prerequisites.
 
-## Run the Agent Wallet plugin
+## Project map
 
-The [plugin guide](packages/agent-wallet-plugin/README.md) covers installation, capability consent, and the command workflow. Its [agent skill](packages/agent-wallet-plugin/skills/kuru-order-desk/SKILL.md) documents the same approval boundary for an assistant. Use Linux or WSL for the plugin, a dedicated Monad testnet account, and review every wallet request yourself.
-
-```sh
-npm run install:plugin
-npm run check
-npm run demo
-npm --prefix packages/agent-wallet-plugin run account:readiness
-```
-
-`npm run demo` is an offline fixture. For real testnet preparation, follow the [account setup guide](docs/ACCOUNT_SETUP.md) and [live validation procedure](packages/agent-wallet-plugin/docs/LIVE_VALIDATION.md). The [dated release status](docs/RELEASE_STATUS.md) records the current host, account, evidence, and distribution gates.
-
-`account:readiness` is a read-only check of the selected Agent Wallet identity, plugin, Monad network, Kuru registration, wallet MON, and custody balances. It prints a separate result for each prerequisite. Run `prepare` to check affordability for specific order terms.
-
-## Project structure
-
-| Path | Purpose |
+| Path | Contents |
 | --- | --- |
-| `apps/web/dist/` | Static browser companion and offline examples |
-| `apps/web/tests/` | Browser behavior and handoff checks |
-| `packages/agent-wallet-plugin/` | Agent Wallet commands, planner, durable intent state, and reconciliation |
-| `docs/` | Account setup, release status, provenance, and validation record |
+| `apps/web/dist/` | Browser companion and interactive examples |
+| `packages/agent-wallet-plugin/` | Wallet commands, order review, intent state, and reconciliation |
+| `assets/demo/` | Narrated product and pitch recordings |
+| `docs/` | Setup, provenance, validation, and [dated release status](docs/RELEASE_STATUS.md) |
 
-The repository's original code is [MIT licensed](LICENSE); dependencies retain their own terms. [AI assistance](AI_USAGE.md) and [source provenance](docs/SOURCE_PROVENANCE.md) are documented separately.
+## Sarvam API example
+
+The separate [single-call Python example](sarvam_chat.py) demonstrates a Sarvam chat completion. Install `sarvamai`, put `SARVAM_API_KEY` in a local `.env`, and run `python sarvam_chat.py`. The key and local virtual environment are ignored by Git.
+
+The repository's original code is [MIT licensed](LICENSE). Dependencies retain their own terms; [AI assistance](AI_USAGE.md) and [source provenance](docs/SOURCE_PROVENANCE.md) are documented separately.

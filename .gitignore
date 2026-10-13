@@ -1,5 +1,6 @@
 node_modules
 node_modules/
+.venv/
 packages/agent-wallet-plugin/dist/
 assets/demo/page@*.webm
 assets/demo/browser-flow.webm
