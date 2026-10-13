@@ -36,7 +36,7 @@
     "test": "node --test --experimental-strip-types tests/*.test.ts",
     "typecheck": "node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.json --noEmit && node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.test.json --noEmit",
     "lint": "eslint src tests scripts",
-    "build": "node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.json && oclif manifest",
+    "build": "node init && node --max-old-space-size=768 ./node_modules/typescript/bin/tsc -p tsconfig.json && oclif manifest",
     "demo": "node --experimental-strip-types scripts/demo.ts",
     "check": "npm test && npm run typecheck && npm run lint && npm run build",
     "prepack": "npm run build",

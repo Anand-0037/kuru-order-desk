@@ -41,8 +41,4 @@ Open `http://127.0.0.1:4173/`. For Agent Wallet installation and command usage, 
 | `assets/demo/` | Narrated product and pitch recordings |
 | `docs/` | Setup, provenance, validation, and [dated release status](docs/RELEASE_STATUS.md) |
 
-## Sarvam API example
-
-The separate [single-call Python example](sarvam_chat.py) demonstrates a Sarvam chat completion. Install `sarvamai`, put `SARVAM_API_KEY` in a local `.env`, and run `python sarvam_chat.py`. The key and local virtual environment are ignored by Git.
-
 The repository's original code is [MIT licensed](LICENSE). Dependencies retain their own terms; [AI assistance](AI_USAGE.md) and [source provenance](docs/SOURCE_PROVENANCE.md) are documented separately.

@@ -15,7 +15,7 @@
     "check": "node scripts/check.mjs",
     "serve": "npm --prefix apps/web run serve",
     "demo": "npm --prefix packages/agent-wallet-plugin run demo",
-    "build:plugin": "npm --prefix packages/agent-wallet-plugin run build",
+    "build:plugin": "node init && npm --prefix packages/agent-wallet-plugin run build",
     "install:plugin": "npm --prefix packages/agent-wallet-plugin ci --ignore-scripts",
     "export:evidence": "npm --prefix apps/web run export:evidence",
     "readiness": "node scripts/readiness.mjs",
